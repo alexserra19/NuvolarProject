@@ -41,7 +41,9 @@ class Profile extends React.Component<IProfileComponentProps, IProfileComponentS
         if(followersResponse.isSuccess) this.props.setCurrentUserFollowers(followersResponse.body);
         if(reposResponse.isSuccess) this.props.setCurrentUserRepositories(reposResponse.body);       
         if(userInfoResponse.isSuccess) this.props.setCurrentUserInfo(userInfoResponse.body);       
+        
         await asyncStorageService.setItem(AppConstants.asyncStorageKeys.currentUser, this.props.currentUser)
+        
         this.setState({isLoading: false})
     }
 
@@ -52,9 +54,6 @@ class Profile extends React.Component<IProfileComponentProps, IProfileComponentS
     }
 
     render() {
-
-
-        console.log(this.props)
         return (
             <View style={styles.centeredView}>
                 {this.state.isLoading &&
