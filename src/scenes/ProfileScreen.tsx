@@ -1,53 +1,45 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
 import AppConstants from '../AppConstants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import currentUserAction from '../actions/currentUserAction'
+import Profile from '../components/Profile/ProfileComponent'
 
-interface ProfileProps {
+interface IProfileScreenProps {
   navigation: any;
   actions: any;
   route: any;
-  userInformation: any;
+  currentUser: ICurrentUser;
 }
 
-export interface ProfileState {
-  currentTab: string;
-}
+class ProfileScreen extends React.Component<IProfileScreenProps> {
 
-class ProfileScreen extends React.Component<ProfileProps, ProfileState> {
-
-  componentDidMount(){
+  constructor(props) {
+    super(props);
   }
-
-
-
-
+  
   render() {
     return (
-      <View style={styles.container}>
-      </View>
+      <Profile 
+        currentUser={this.props.currentUser}
+        setCurrentUserFollowers={this.props.actions.currentUser.setCurrentUserFollowers}
+        setCurrentUserRepositories={this.props.actions.currentUser.setCurrentUserRepositories}
+        setCurrentUserInfo={this.props.actions.currentUser.setCurrentUserInfo}
+      />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  userInformation: state.userInformationReducer
+  currentUser: state.currentUserReducer
 });
 
 function mapDispatchToProps(dispatch) {
   return{
     actions: {
+      currentUser: bindActionCreators<any, any>(currentUserAction, dispatch)
     }
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor:AppConstants.colors.blue,
-    height:'100%'
-  }
-});

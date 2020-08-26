@@ -16,4 +16,7 @@ export default {
         blue: '#3851f2',
         dark: '#24292e'
     },
+    asyncStorageKeys:{
+        currentUser: 'currentUser'
+    }
 }

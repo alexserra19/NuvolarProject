@@ -14,9 +14,10 @@ export const UserButton: StatelessComponent<IUserButtonProps> = (props) =>  (
         style={{
             borderRadius: 10,
             backgroundColor:AppConstants.colors.white,
-            borderBottomWidth: 1,
-            padding:normalize(10),
-            marginBottom: normalize(5),
+            padding: normalize(10),
+            marginBottom: normalize(7),
+            height: normalize(40),
+            justifyContent:'center'
         }}
     >
         <View style={{
@@ -24,7 +25,7 @@ export const UserButton: StatelessComponent<IUserButtonProps> = (props) =>  (
             alignItems:'center',
         }}>
             <Image 
-                style={{width:normalize(35), height:normalize(35), borderRadius:50}}
+                style={{width:normalize(30), height:normalize(30), borderRadius:50}}
                 source={{uri: props.item.avatar_url}}
             />
             <Text style={{fontSize: normalize(13), marginLeft: normalize(8)}}>
@@ -35,8 +36,8 @@ export const UserButton: StatelessComponent<IUserButtonProps> = (props) =>  (
             
             <Image 
                 style={{
-                    width:normalize(35), 
-                    height:normalize(35), 
+                    width:normalize(20), 
+                    height:normalize(20), 
                     borderRadius:50, 
                     position:'absolute', 
                     right:0,

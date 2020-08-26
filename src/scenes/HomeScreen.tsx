@@ -12,27 +12,21 @@ interface HomeProps {
   currentUser: ICurrentUser;
 }
 
-export interface HomeState {
-  currentTab: string;
-}
 
-class HomeScreen extends React.Component<HomeProps, HomeState> {
-
+class HomeScreen extends React.Component<HomeProps> {
 
   constructor(props) {
     super(props);
   }
   
-  componentDidMount(){
-
-  }
-
   render() {
     return (
       <Home 
         navigation={this.props.navigation}
         currentUser={this.props.currentUser}
-        setCurrentProfile={this.props.actions.currentUser.setCurrentProfile}
+        setCurrentUserProfile={this.props.actions.currentUser.setCurrentUserProfile}
+        setCurrentUserFollowers={this.props.actions.currentUser.setCurrentUserFollowers}
+        setCurrentUserRepositories={this.props.actions.currentUser.setCurrentUserRepositories}
       />
     );
   }

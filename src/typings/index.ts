@@ -1,6 +1,9 @@
 
 interface ICurrentUser {
-    profile: IGitUser
+    profile: IGitUser;
+    followers: Array<{}>;
+    repositories: Array<{}>
+    userInfo: any
 }
 
 interface IGitUser {

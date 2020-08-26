@@ -9,7 +9,10 @@ import CommonService from '../../services/commonService'
 interface IHomeComponentProps {
     navigation: any;
     currentUser: ICurrentUser;
-    setCurrentProfile?: (profile: IGitUser) => void;
+    setCurrentUserProfile?: (profile: IGitUser) => void;
+    setCurrentUserFollowers?: (followers: IGitUser) => void;
+    setCurrentUserRepositories?: (repositories: IGitUser) => void;
+
 }
 
 interface IHomeComponentState {
@@ -61,16 +64,6 @@ class Home extends React.Component<IHomeComponentProps, IHomeComponentState> {
                     keyExtractor={item => item.login}
                     maxToRenderPerBatch={4}
                 />
-
-                {/* {this.state.usersList.map((item, index) => {
-                    return(
-                        <UserButton 
-                            item={item}
-                            onPress={this.handleItemPressed.bind(this)}
-                            index={index}
-                        />
-                    )
-                })} */}
             </View>
         )
     }
@@ -84,13 +77,13 @@ class Home extends React.Component<IHomeComponentProps, IHomeComponentState> {
     );
 
 
-    handleItemPressed(item: IGitUser){
-        this.props.setCurrentProfile(item);
+    async handleItemPressed(item: IGitUser){
+        this.props.setCurrentUserProfile(item); 
         this.props.navigation.navigate(AppConstants.routeName.profile)
     }
 
     clearSearch(){
-        this.props.setCurrentProfile(null);
+        this.props.setCurrentUserProfile(null);
         this.setState({usersList:[]})
     }
 
@@ -99,14 +92,14 @@ class Home extends React.Component<IHomeComponentProps, IHomeComponentState> {
             <View style={styles.centeredView}>
                 <View style={[
                     styles.logoContainer,
-                    {height: this.state.isLandscape? normalize(90) : normalize(250)}
+                    {marginVertical: this.state.isLandscape? normalize(10) : normalize(30)}
                 ]}>
                     <Image 
                         style={[
                             styles.logo,
                             { 
-                                height: this.state.isLandscape? normalize(90) : normalize(200),
-                                width: this.state.isLandscape? normalize(90) : normalize(200)
+                                height: this.state.isLandscape? normalize(70) : normalize(150),
+                                width: this.state.isLandscape? normalize(70) : normalize(150)
                             }
                         ]}
                         source={require('../../assets/images/gitLogo.png')}
@@ -145,7 +138,6 @@ const styles = StyleSheet.create({
         backgroundColor: AppConstants.colors.dark,
         padding: normalize(20),
         flex: 1,
-
     },
 
     search:{
@@ -164,6 +156,6 @@ const styles = StyleSheet.create({
 
     bodyContainer:{
         justifyContent: 'center',
-        height: '50%',
+        flex:1
     }
 });

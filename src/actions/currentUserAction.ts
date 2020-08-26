@@ -3,10 +3,31 @@ import { Action } from 'redux';
 
 const currentUserAction: ICurrentUserAction = {
   
-  setCurrentProfile(profile) {
+  setCurrentUserProfile(profile) {
     return {
-      type: currentUserConstants.SET_CURRENT_PROFILE,
+      type: currentUserConstants.SET_CURRENT_USER_PROFILE,
       data: profile,
+    };
+  },
+
+  setCurrentUserFollowers(followers) {
+    return {
+      type: currentUserConstants.SET_CURRENT_USER_FOLLOWERS,
+      data: followers,
+    };
+  },
+
+  setCurrentUserRepositories(repositories) {
+    return {
+      type: currentUserConstants.SET_CURRENT_USER_REPOSITORIES,
+      data: repositories,
+    };
+  },
+
+  setCurrentUserInfo(userInfo) {
+    return {
+      type: currentUserConstants.SET_CURRENT_USER_INFO,
+      data: userInfo,
     };
   },
 }
@@ -14,5 +35,9 @@ const currentUserAction: ICurrentUserAction = {
 export default currentUserAction;
 
 export interface ICurrentUserAction {
-  setCurrentProfile?: (profile: IGitUser) => Action;
+  setCurrentUserProfile?: (profile: IGitUser) => Action;
+  setCurrentUserFollowers?: (followers) => Action;
+  setCurrentUserRepositories?: (repositories) => Action;
+  setCurrentUserInfo?: (userInfo) => Action;
+
 }
