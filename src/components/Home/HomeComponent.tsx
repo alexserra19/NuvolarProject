@@ -1,8 +1,10 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, Platform, ScrollView, ActivityIndicator } from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity, Platform, ScrollView, ActivityIndicator, FlatList, Dimensions } from 'react-native';
 import AppConstants from '../../AppConstants';
 import { SearchBar, normalize } from 'react-native-elements';
 import ApplicationService from '../../services/applicationService'
+import { UserButton } from '../UserButton';
+import CommonService from '../../services/commonService'
 
 interface IHomeComponentProps {
     navigation: any;
@@ -14,6 +16,7 @@ interface IHomeComponentState {
     search: string;
     usersList: Array<IGitUser>;
     isLoading: boolean;
+    isLandscape: boolean;
 }
 
 class Home extends React.Component<IHomeComponentProps, IHomeComponentState> {
@@ -24,7 +27,20 @@ class Home extends React.Component<IHomeComponentProps, IHomeComponentState> {
             search: '',
             usersList: null,
             isLoading: false,
+            isLandscape: false
         }
+    }
+
+    componentDidMount(){
+        Dimensions.addEventListener('change', () => {
+            this.setState({isLandscape: CommonService.isLandscape()})
+        })
+    }
+
+    componentWillUnmount(){
+        Dimensions.removeEventListener('change', () => {
+            this.setState({isLandscape: CommonService.isLandscape()})
+        })
     }
 
     async updateSearch(){
@@ -38,35 +54,35 @@ class Home extends React.Component<IHomeComponentProps, IHomeComponentState> {
     
     renderUsersList(){
         return(
-            <View style={{flex:1}}>
-                {this.state.usersList.map((item, index) => {
+            <View style={{flex:1, marginHorizontal:8}}>
+                <FlatList
+                    data={this.state.usersList}
+                    renderItem={this.renderItem}
+                    keyExtractor={item => item.login}
+                    maxToRenderPerBatch={4}
+                />
+
+                {/* {this.state.usersList.map((item, index) => {
                     return(
-                        <TouchableOpacity
-                            onPress={() => this.handleItemPressed(item)}
-                            key={index}
-                        >
-
-                            <View style={{
-                                backgroundColor:AppConstants.colors.white,
-                                borderBottomWidth: 1,
-                                padding: normalize(10),
-                                flexDirection: 'row',
-                                alignItems:'center'
-                            }}>
-
-                                <Image 
-                                    style={{width:normalize(30), height:normalize(30)}}
-                                    source={{uri: item.avatar_url}}
-                                />
-                                <Text style={{fontSize: normalize(12), marginLeft: normalize(8)}}>{item.login}</Text>
-                        
-                        </View>
-                        </TouchableOpacity>
+                        <UserButton 
+                            item={item}
+                            onPress={this.handleItemPressed.bind(this)}
+                            index={index}
+                        />
                     )
-                })}
+                })} */}
             </View>
         )
     }
+
+
+    renderItem = ({item}) => (
+        <UserButton 
+            item={item}
+            onPress={this.handleItemPressed.bind(this)}
+        />    
+    );
+
 
     handleItemPressed(item: IGitUser){
         this.props.setCurrentProfile(item);
@@ -81,34 +97,41 @@ class Home extends React.Component<IHomeComponentProps, IHomeComponentState> {
     render() {
         return (
             <View style={styles.centeredView}>
-                <ScrollView>
-                    <View style={styles.logoContainer}>
-                        <Image 
-                            style={styles.logo}
-                            source={require('../../assets/images/gitLogo.png')}
-                        />
-                    </View>
-                    <SearchBar
-                        placeholder="Type Here the Username..."
-                        onChangeText={(value) => this.setState({search: value})}
-                        onBlur={()=> this.updateSearch()}
-                        value={this.state.search}
-                        containerStyle={styles.search}
-                        inputContainerStyle={{backgroundColor: AppConstants.colors.white}}
-                        platform={Platform.OS === 'ios' ? 'ios' : 'android'}
-                        onClear={() => this.clearSearch()}
+                <View style={[
+                    styles.logoContainer,
+                    {height: this.state.isLandscape? normalize(90) : normalize(250)}
+                ]}>
+                    <Image 
+                        style={[
+                            styles.logo,
+                            { 
+                                height: this.state.isLandscape? normalize(90) : normalize(200),
+                                width: this.state.isLandscape? normalize(90) : normalize(200)
+                            }
+                        ]}
+                        source={require('../../assets/images/gitLogo.png')}
                     />
+                </View>
+                <SearchBar
+                    placeholder="Type Here the Username..."
+                    onChangeText={(value) => this.setState({search: value})}
+                    onBlur={()=> this.updateSearch()}
+                    value={this.state.search}
+                    containerStyle={styles.search}
+                    inputContainerStyle={{backgroundColor: AppConstants.colors.white}}
+                    platform={Platform.OS === 'ios' ? 'ios' : 'android'}
+                    onClear={() => this.clearSearch()}
+                />
 
-                    <View style={styles.bodyContainer}>
-                        {this.state.isLoading &&
-                            <ActivityIndicator size={'large'} color={'white'} />
-                        }
+                <View style={styles.bodyContainer}>
+                    {this.state.isLoading &&
+                        <ActivityIndicator size={'large'} color={'white'} />
+                    }
 
-                        {!this.state.isLoading && this.state.usersList?.length > 0 &&
-                            this.renderUsersList()
-                        }
-                    </View>
-                </ScrollView>
+                    {!this.state.isLoading && this.state.usersList?.length > 0 &&
+                        this.renderUsersList()
+                    }
+                </View>
             </View>
         );
     }
@@ -127,23 +150,20 @@ const styles = StyleSheet.create({
 
     search:{
         width:'100%',
-        backgroundColor: 'transparent',        
+        backgroundColor: 'transparent',   
     },
 
     logoContainer:{
-        height: normalize(200),
         alignItems: 'center',
         justifyContent: 'center'
     },
 
     logo:{
-        height: normalize(150),
-        width: normalize(150),
         tintColor: AppConstants.colors.white
     },
 
     bodyContainer:{
         justifyContent: 'center',
-        height: '100%',
+        height: '50%',
     }
 });
