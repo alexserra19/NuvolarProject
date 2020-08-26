@@ -30,7 +30,7 @@ class Home extends React.Component<IHomeComponentProps, IHomeComponentState> {
             search: '',
             usersList: null,
             isLoading: false,
-            isLandscape: false
+            isLandscape: CommonService.isLandscape()
         }
     }
 

@@ -25,7 +25,7 @@ class Profile extends React.Component<IProfileComponentProps, IProfileComponentS
         super(props);
         this.state = {
             isLoading: true,
-            isLandscape: false
+            isLandscape: CommonService.isLandscape()
         }
     }
 
