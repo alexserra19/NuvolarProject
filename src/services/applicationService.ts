@@ -1,16 +1,16 @@
 import AppConstants from "../AppConstants";
 import interceptorService from './interceptorService'
 
-class UserService {
+class ApplicationService {
 
-    async validateAdsCode(code: string){
+    async searchUsers(username: string){
 
         try{
-            const url = AppConstants.domain+'/code/checkCode/'+code;
+            const url = AppConstants.domain+'/search/users?q='+username;
             let response = await interceptorService.doRequest(url);    
-            
+
             if (response.isSuccess){
-                return response.body
+                return response
             }
             else{
                 return null
@@ -23,4 +23,4 @@ class UserService {
     }
 }
 
-export default new UserService();
+export default new ApplicationService();

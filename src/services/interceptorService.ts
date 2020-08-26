@@ -1,4 +1,3 @@
-import AppConstants from "../AppConstants";
 
 const interceptor = {
     async doRequest(url, method = 'GET') {
@@ -8,7 +7,6 @@ const interceptor = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Drinkit-Token': AppConstants.drinkitInfo.headerToken
             }
         });
 

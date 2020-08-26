@@ -4,7 +4,7 @@ export default {
         home: 'Home',
         profile: 'Profile'
     }, 
-    domain:'https://www.drinkitparty.com/drinkit',
+    domain:'https://api.github.com',
     colors: {
         red: '#ff2800',
         yellow:'#febc59',
@@ -13,6 +13,7 @@ export default {
         green:'#00d800',
         white:'#ffff',
         black: '#000000',
-        blue: '#3851f2'
+        blue: '#3851f2',
+        dark: '#24292e'
     },
 }

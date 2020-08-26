@@ -1,0 +1,3 @@
+export default{
+    SET_CURRENT_PROFILE: 'SET_CURRENT_PROFILE',
+}

@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import AppConstants from '../AppConstants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import userInformationActions from '../actions/userInformation.actions'
+import currentUserAction from '../actions/currentUserAction'
+import Home from '../components/Home/HomeComponent'
 
 interface HomeProps {
   navigation: any;
-  generalConfiguration:any;
   actions: any;
   route: any;
-  userInformation: any;
+  currentUser: ICurrentUser;
 }
 
 export interface HomeState {
@@ -25,44 +24,30 @@ class HomeScreen extends React.Component<HomeProps, HomeState> {
   }
   
   componentDidMount(){
+
   }
-
-
-
 
   render() {
     return (
-      <View style={styles.container}>
-
-        <TouchableOpacity
-          style={[styles.button]}
-          onPress={() => this.props.navigation.navigate(AppConstants.routeName.profile)}
-        >
-            <Text style={styles.buttonText}>press me</Text>
-        </TouchableOpacity>
-      </View>
+      <Home 
+        navigation={this.props.navigation}
+        currentUser={this.props.currentUser}
+        setCurrentProfile={this.props.actions.currentUser.setCurrentProfile}
+      />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  userInformation: state.userInformationReducer
+  currentUser: state.currentUserReducer
 });
 
 function mapDispatchToProps(dispatch) {
   return{
     actions: {
-      userInformationActions: bindActionCreators<any, any>(userInformationActions, dispatch)
+      currentUser: bindActionCreators<any, any>(currentUserAction, dispatch)
     }
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor:AppConstants.colors.red,
-    height:'100%'
-  }
-});

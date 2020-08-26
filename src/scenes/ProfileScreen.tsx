@@ -3,11 +3,9 @@ import {View, StyleSheet} from 'react-native';
 import AppConstants from '../AppConstants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import userInformationActions from '../actions/userInformation.actions'
 
 interface ProfileProps {
   navigation: any;
-  generalConfiguration:any;
   actions: any;
   route: any;
   userInformation: any;
@@ -40,7 +38,6 @@ const mapStateToProps = (state) => ({
 function mapDispatchToProps(dispatch) {
   return{
     actions: {
-      userInformationActions: bindActionCreators<any, any>(userInformationActions, dispatch)
     }
   }
 }
