@@ -4,7 +4,7 @@ import { Dimensions } from "react-native";
 class CommonService {
 
     isLandscape(){
-        const {height, width } = Dimensions.get('screen')
+        const {height, width } = Dimensions.get('window')
         return width >= height;
     }
 }

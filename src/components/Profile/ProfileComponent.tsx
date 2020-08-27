@@ -64,7 +64,6 @@ class Profile extends React.Component<IProfileComponentProps, IProfileComponentS
 
     render() {
 
-        console.log('-------', this.props)
         return (
             <View style={styles.centeredView}>
                 {this.state.isLoading &&

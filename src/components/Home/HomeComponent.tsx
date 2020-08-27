@@ -143,6 +143,7 @@ const styles = StyleSheet.create({
     search:{
         width:'100%',
         backgroundColor: 'transparent',   
+        borderWidth: 0
     },
 
     logoContainer:{

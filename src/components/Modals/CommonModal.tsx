@@ -16,7 +16,6 @@ interface ICommonModalProps {
 
 export const CommonModal: StatelessComponent<ICommonModalProps> = (props) =>{
 
-    console.log('aaaa', props)
     return (
         <View style={styles.centeredView}>
             <Modal isVisible={true}>
@@ -26,7 +25,10 @@ export const CommonModal: StatelessComponent<ICommonModalProps> = (props) =>{
                     {props.modalInfo &&
                         <ScrollView style={styles.modalInfoList}>
                             {props.modalInfo.map((item, index) => (
-                                <View style={styles.rowData}>
+                                <View 
+                                    style={styles.rowData}
+                                    key={index}
+                                >
                                     <Image 
                                         style={styles.rowIcon}
                                         source={props.title === 'Followers' ? 
