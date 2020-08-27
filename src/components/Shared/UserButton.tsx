@@ -1,7 +1,7 @@
 import React, { StatelessComponent } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, Image } from 'react-native';
 import { normalize } from 'react-native-elements';
-import AppConstants from '../AppConstants';
+import AppConstants from '../../AppConstants';
 
 interface IUserButtonProps {
     item: any;
@@ -43,7 +43,7 @@ export const UserButton: StatelessComponent<IUserButtonProps> = (props) =>  (
                     right:0,
                     tintColor:AppConstants.colors.dark
                 }}
-                source={require('../assets/images/arrow-right.png')}
+                source={require('../../assets/images/arrow-right.png')}
             />
             
         </View>

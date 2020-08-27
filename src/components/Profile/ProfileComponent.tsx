@@ -5,6 +5,7 @@ import { normalize } from 'react-native-elements';
 import ApplicationService from '../../services/applicationService'
 import CommonService from '../../services/commonService'
 import asyncStorageService from '../../services/asyncStorageService';
+import { UserInfoRow } from '../Shared/UserInfoRow';
 
 interface IProfileComponentProps {
     currentUser: ICurrentUser;
@@ -54,6 +55,8 @@ class Profile extends React.Component<IProfileComponentProps, IProfileComponentS
     }
 
     render() {
+
+        console.log('-------', this.props)
         return (
             <View style={styles.centeredView}>
                 {this.state.isLoading &&
@@ -66,28 +69,70 @@ class Profile extends React.Component<IProfileComponentProps, IProfileComponentS
                 
                     <ScrollView>
                         <View style={styles.bodyContainer}>
-                            <View style={[
-                                styles.logoContainer,
-                                {
-                                    marginTop: this.state.isLandscape? normalize(10) : normalize(30),
-                                    marginBottom: this.state.isLandscape? normalize(5) : normalize(15)
-                                },
-                            ]}>
-                                <Image 
-                                    style={[
-                                        styles.logo,
-                                        { 
-                                            height: this.state.isLandscape? normalize(70) : normalize(150),
-                                            width: this.state.isLandscape? normalize(70) : normalize(150)
-                                        }
-                                    ]}
-                                    source={{uri: this.props.currentUser.profile.avatar_url}}
-                                    />
-                            </View>
 
-                            <Text style={styles.usernameText}>
-                                {this.props.currentUser.profile.login}
-                            </Text>                    
+                            <View style={styles.headerInfo}>
+                                <View style={[
+                                    styles.logoContainer,
+                                    {
+                                        marginTop: this.state.isLandscape? normalize(10) : normalize(20),
+                                        marginBottom: this.state.isLandscape? normalize(5) : normalize(15)
+                                    },
+                                ]}>
+                                    <Image 
+                                        style={[
+                                            styles.logo,
+                                            { 
+                                                height: this.state.isLandscape? normalize(70) : normalize(150),
+                                                width: this.state.isLandscape? normalize(70) : normalize(150)
+                                            }
+                                        ]}
+                                        source={{uri: this.props.currentUser.profile.avatar_url}}
+                                        />
+                                </View>
+
+                                <Text style={styles.usernameText}>
+                                    {this.props.currentUser.userInfo?.login}
+                                </Text>
+                                <Text style={styles.nameSubText}>
+                                    {!!this.props.currentUser.userInfo?.name ? this.props.currentUser.userInfo?.name : 'Undefined'}
+                                </Text>  
+                            </View>
+                            <View style={styles.userInfoContainer}>
+                                <UserInfoRow 
+                                    label={this.props.currentUser.userInfo?.login}
+                                    image={require('../../assets/images/gitLogo.png')}
+                                />
+                                <UserInfoRow 
+                                    label={this.props.currentUser.userInfo?.name}
+                                    image={require('../../assets/images/user-name.png')}
+                                />
+                                <UserInfoRow 
+                                    label={this.props.currentUser.userInfo?.bio}
+                                    image={require('../../assets/images/user-bio.png')}
+                                />
+                                <UserInfoRow 
+                                    label={this.props.currentUser.userInfo?.company}
+                                    image={require('../../assets/images/user-company.png')}
+                                />
+                                <UserInfoRow 
+                                    label={this.props.currentUser.userInfo?.location}
+                                    image={require('../../assets/images/user-location.png')}
+                                />
+                                <UserInfoRow 
+                                    label={this.props.currentUser.userInfo?.email}
+                                    image={require('../../assets/images/user-email.png')}
+                                />
+                                <UserInfoRow 
+                                    label={this.props.currentUser.userInfo?.followers}
+                                    image={require('../../assets/images/user-followers.png')}
+                                    displayInfo={true}
+                                />
+                                <UserInfoRow 
+                                    label={this.props.currentUser.userInfo?.public_repos}
+                                    image={require('../../assets/images/user-repositories.png')}
+                                    displayInfo={true}
+                                />
+                            </View>                  
                         </View>
                     </ScrollView>
                 }
@@ -101,20 +146,28 @@ export default Profile;
 
 const styles = StyleSheet.create({
     centeredView: {
-        backgroundColor: AppConstants.colors.dark,
-        padding: normalize(20),
         flex: 1,
+        backgroundColor: AppConstants.colors.dark,
+    },
+
+    headerInfo:{
+        width:'100%',
+        alignItems:'center',
+        // borderBottomWidth:1, 
+        // borderBottomColor: AppConstants.colors.gray,
+        paddingBottom: normalize(20)
     },
 
     logoContainer:{
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: AppConstants.colors.dark,
     },
 
     logo:{
         borderRadius:100,
         borderColor: AppConstants.colors.white,
-        borderWidth:3
+        borderWidth:1
     },
 
     loadingOverlay:{
@@ -130,13 +183,23 @@ const styles = StyleSheet.create({
 
     bodyContainer:{
         flexDirection:'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        width:'100%'
     },
 
     usernameText:{
         fontWeight:'bold', 
         fontSize:normalize(20),
         color: AppConstants.colors.white,
+    },
+    nameSubText:{
+        fontWeight:'bold', 
+        fontSize:normalize(13),
+        color: AppConstants.colors.blue,
+    },
+
+    userInfoContainer:{
+        width:'100%',
     }
 
 });

@@ -3,7 +3,7 @@ import {View, StyleSheet, Image, Text, TouchableOpacity, Platform, ScrollView, A
 import AppConstants from '../../AppConstants';
 import { SearchBar, normalize } from 'react-native-elements';
 import ApplicationService from '../../services/applicationService'
-import { UserButton } from '../UserButton';
+import { UserButton } from '../Shared/UserButton';
 import CommonService from '../../services/commonService'
 
 interface IHomeComponentProps {
