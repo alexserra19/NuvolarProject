@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, Platform, ScrollView, ActivityIndicator, FlatList, Dimensions } from 'react-native';
+import {View, StyleSheet, Image, Platform, ActivityIndicator, FlatList, Dimensions } from 'react-native';
 import AppConstants from '../../AppConstants';
 import { SearchBar, normalize } from 'react-native-elements';
 import ApplicationService from '../../services/applicationService'

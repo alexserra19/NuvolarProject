@@ -6,6 +6,7 @@ import ApplicationService from '../../services/applicationService'
 import CommonService from '../../services/commonService'
 import asyncStorageService from '../../services/asyncStorageService';
 import { UserInfoRow } from '../Shared/UserInfoRow';
+import { CommonModal } from '../Modals/CommonModal';
 
 interface IProfileComponentProps {
     currentUser: ICurrentUser;
@@ -18,6 +19,10 @@ interface IProfileComponentProps {
 interface IProfileComponentState {
     isLoading: boolean;
     isLandscape: boolean;
+    isModalShown: boolean;
+    modalInfo: Array<{}>;
+    modalTitle: string;
+
 }
 
 class Profile extends React.Component<IProfileComponentProps, IProfileComponentState> {
@@ -26,7 +31,10 @@ class Profile extends React.Component<IProfileComponentProps, IProfileComponentS
         super(props);
         this.state = {
             isLoading: true,
-            isLandscape: CommonService.isLandscape()
+            isLandscape: CommonService.isLandscape(),
+            isModalShown: false,
+            modalInfo: null,
+            modalTitle: null,
         }
     }
 
@@ -126,14 +134,37 @@ class Profile extends React.Component<IProfileComponentProps, IProfileComponentS
                                     label={this.props.currentUser.userInfo?.followers}
                                     image={require('../../assets/images/user-followers.png')}
                                     displayInfo={true}
+                                    displayInfoAction={() => this.setState({
+                                        isModalShown: true,
+                                        modalTitle: 'Followers',
+                                        modalInfo: this.props.currentUser.followers
+                                    })}
                                 />
                                 <UserInfoRow 
                                     label={this.props.currentUser.userInfo?.public_repos}
                                     image={require('../../assets/images/user-repositories.png')}
                                     displayInfo={true}
+                                    displayInfoAction={() => this.setState({
+                                        isModalShown: true,
+                                        modalTitle: 'Repositories',
+                                        modalInfo: this.props.currentUser.repositories
+                                    })}
                                 />
                             </View>                  
                         </View>
+                        {this.state.isModalShown &&
+                            <CommonModal 
+                                title={this.state.modalTitle}
+                                buttonText={'Close'}
+                                onPress={() => this.setState({
+                                    isModalShown: false,
+                                    modalTitle: null,
+                                    modalInfo: null
+                                })}
+                                modalInfo={this.state.modalInfo}
+                                color={AppConstants.colors.dark}
+                            />
+                        }    
                     </ScrollView>
                 }
             </View>

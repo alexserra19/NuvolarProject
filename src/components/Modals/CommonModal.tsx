@@ -1,9 +1,8 @@
-import React, { StatelessComponent, useState } from 'react';
-import {View, Image, StyleSheet,Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { StatelessComponent } from 'react';
+import {View, StyleSheet,Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import AppConstants from '../../AppConstants';
 import Modal from 'react-native-modal';
-import I18n from '../../i18n';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { normalize } from 'react-native-elements';
 
 
 interface ICommonModalProps {
@@ -12,31 +11,42 @@ interface ICommonModalProps {
     onPress?: () => void;
     onDismiss?: () => void;
     color: string
+    modalInfo?: Array<any>
 }
 
 export const CommonModal: StatelessComponent<ICommonModalProps> = (props) =>{
 
+    console.log('aaaa', props)
     return (
         <View style={styles.centeredView}>
             <Modal isVisible={true}>
                 <View style={styles.modalContent}>
                     <Text style={[styles.modalTitleText, {color:props.color}]}>{props.title}</Text>
 
+                    {props.modalInfo &&
+                        <ScrollView style={styles.modalInfoList}>
+                            {props.modalInfo.map((item, index) => (
+                                <View style={styles.rowData}>
+                                    <Image 
+                                        style={styles.rowIcon}
+                                        source={props.title === 'Followers' ? 
+                                            require('../../assets/images/user-icon.png')
+                                            : require('../../assets/images/user-repositories.png')
+                                        }
+                                    />                                    
+                                    <Text style={styles.textInfo}>
+                                        {props.title === 'Followers' ? item.login : item.name}
+                                    </Text>
+                                </View>
+                            ))}
+                        </ScrollView>
+                    } 
                     <TouchableOpacity
                         style={[styles.onPressButton, styles.button, {backgroundColor:props.color}]}
                         onPress={props.onPress}
                     >
                         <Text style={styles.buttonText}>{props.buttonText}</Text>
                     </TouchableOpacity>
-
-                    {props.onDismiss &&
-                        <TouchableOpacity
-                            style={[styles.cancelButton, styles.button, {borderColor:props.color, borderWidth:2}]}
-                            onPress={props.onDismiss}
-                        >
-                            <Text style={[styles.buttonText,{color: props.color}]}>{I18n.t("buttons.cancel")}</Text>
-                        </TouchableOpacity>
-                    }
                 </View>
             </Modal>
         </View>
@@ -53,10 +63,10 @@ const styles = StyleSheet.create({
     },
 
     modalTitleText:{
-        fontSize: wp('8%'),
-        fontFamily:'Amaranth-BoldItalic',
+        fontSize: normalize(18),
         textAlign:'center',
-        marginBottom: hp('3%')
+        marginBottom: normalize(3),
+        fontWeight:'bold'
     },
 
     modalContent: {
@@ -79,19 +89,37 @@ const styles = StyleSheet.create({
         elevation:999,
     },
 
-    cancelButton:{
-        marginTop: hp('1%'),
-        backgroundColor: AppConstants.colors.white
-    },
-
     onPressButton:{
         marginBottom:5,
     },
 
     buttonText:{
         color: AppConstants.colors.white,
-        fontSize: wp('6%'),
-        fontFamily:'Amaranth-Bold',
-    }
+        fontSize: normalize(15),
+    },
 
+    modalInfoList:{
+        marginVertical: normalize(10),
+        height: normalize(190),
+        width:'100%',
+        paddingLeft: normalize(10)
+    },
+
+    rowData:{
+        flexDirection:'row',
+        width:'80%',
+        alignItems:'center',
+        marginBottom: normalize(7)
+    },
+    rowIcon: {
+        width:normalize(23), 
+        height:normalize(23),
+        marginRight:normalize(10),
+        tintColor: AppConstants.colors.dark
+    },
+    textInfo:{
+        fontSize: normalize(15), 
+        marginLeft: normalize(8), 
+        color: AppConstants.colors.dark,
+    }
   });

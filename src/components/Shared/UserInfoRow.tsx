@@ -7,6 +7,7 @@ interface IUserInfoRowProps {
     label: string;
     image: ImageSourcePropType;
     displayInfo?: boolean;
+    displayInfoAction?: () => void;
 }
 
 export const UserInfoRow: StatelessComponent<IUserInfoRowProps> = (props) =>  {
@@ -22,10 +23,9 @@ export const UserInfoRow: StatelessComponent<IUserInfoRowProps> = (props) =>  {
             </Text>
 
             {props.displayInfo &&
-
                 <TouchableOpacity
                     style={styles.buttonContainer}
-                    onPress={()=> console.log('click')}
+                    onPress={props.displayInfoAction}
                 >
                     <Image 
                         style={styles.rowIcon}
